@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mr Gen's Adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,700&display=swap&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #4e4497, #825A94);
+      font-family: 'Roboto Mono', monospace;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 960px;
+      height: 540px;
+      aspect-ratio: 16/9;
+      border: none;
+      background-color: rgb(252, 252, 252);
+      overflow: hidden;
+      
+    }
+
+    .game-container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0px 10px 20px rgba(33, 7, 203, 0.7);
+      border: 8px solid #000000;
+      overflow: hidden;
+    }
+
+    .line {
+      position:absolute;
+      width: 960px;
+      height: 3px;
+      background: #b1b1b1;
+      top: 15%;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3)
+    }
+
+    .line-2 {
+      position:absolute;
+      width: 3px;
+      height: 458px;
+      background: #b1b1b1;
+      left: 20%;
+      bottom: 0px;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3)
+    }
+
+    .macbook-camera {
+      position:absolute;
+      width: 100px;
+      height: 30px;
+      background: rgb(0, 0, 0);
+      top: 0%;
+      border-radius: 0px 0px 10px 10px;
+    }
+
+    .macbook-camera::before {
+      content: '';
+      position: absolute;
+      background: rgb(116, 116, 116);
+      border-radius: 10px;
+      width: 20px;
+      height: 20px;
+      left: 25%;
+      top: 50
+    }
+
+    .message-thread {
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 65%;
+      height: 70%;
+      background: #f9f9f9;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .message.user {
+      background-color: #5068dc;
+      color: white;
+      text-align: right;
+    }
+
+    .message.bot {
+      background-color: #c0c0c0;
+      color: black;
+      text-align: left;
+    }
+
+    .input-container {
+      position: absolute;
+      width: 60%;
+      bottom: 3%;
+      left: 30%;
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .input-container button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .input-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .input-container button:active {
+      background-color: #0056b3;
+    }
+    #fadeOutElement {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 1);
+      border-radius: 15px;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+      z-index: 100;
+    }
+  </style>
+</head>
+
+<body>
+<div class="iframe">
+  <div class="game-container">
+    <div class="macbook-camera"></div>
+    <div class="line"></div>
+    <div class="line-2"></div>
+    <div class="message-thread" id="messageThread">
+      <div class="message user">hi lily !</div>
+      <div class="message bot">hehehe, hi sweet talker</div>
+    <div class="message bot">im happy u wanted to keep talking to me</div>
+    <div class="message bot">do u wanna see some of my paintings?</div>
+    </div>
+    <div class="input-container">
+        <input type="text" id="messageInput" value="ending chosen: lily !!">
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+     </div>
+     <div id="fadeOutElement"></div>
+     <audio src="sound/notifs.mp3" autoplay></audio>
+  </div>
+</div>
+
+  <script>
+    // Select input and button elements
+    const input = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const messageThread = document.getElementById('messageThread');
+  
+    function sendMessage() {
+      const userMessage = document.createElement('div');
+      userMessage.className = 'message user';
+      userMessage.textContent = input.value;
+      messageThread.appendChild(userMessage);
+  
+      // Scroll to the bottom
+      messageThread.scrollTop = messageThread.scrollHeight;
+  
+      // Clear input
+      input.value = '';
+    }
+  
+    // Add a single event listener for button click
+    sendButton.addEventListener('click', sendMessage);
+
+    document.addEventListener('DOMContentLoaded', () => {
+          const fadeOutElement = document.getElementById('fadeOutElement');
+          setTimeout(() => {
+          fadeOutElement.style.opacity = 1;
+          }, 4000); 
+        });
+  </script>
+  
+</body>
+</html>
