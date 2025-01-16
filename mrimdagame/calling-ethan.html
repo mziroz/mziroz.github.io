@@ -154,7 +154,6 @@
       <div class="ethan"></div>
      <a href="calling-ethan2.html" class="next-button"><u>next</u></a>
       <div id="fadeOutElement"></div>
-      <audio src="sound/ringing.mp3" autoplay></audio>
     </div>
     </div>
 
@@ -165,7 +164,17 @@
       fadeOutElement.style.opacity = 0;
       }, 1500); 
     });
+    window.onload = function() {
+    const audio = new Audio('sound/ringing.mp3');
+    const playPromise = audio.play();
     
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            // Auto-play was prevented
+            console.log("Autoplay was prevented by the browser");
+        });
+    }
+}
     </script>
   </body>
   </html>
